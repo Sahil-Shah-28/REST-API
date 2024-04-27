@@ -45,11 +45,15 @@ app.route("/api/users/:id").get((req,res)=>{
         return res.json(user)
     })
 }).delete((req, res) => {
-    let id = Number(req.params.id);
-    let user = users.filter(user => user.id !== id);
-    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users),(err,data)=>{
-        return res.json(user)
-    })});
+    const id = Number(req.params.id);
+    const updatedUsers = users.filter(user => user.id !== id);
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(updatedUsers), (err) => {
+        if (err) {
+            return res.status(500).json({ error: "Error deleting user." });
+        }
+        return res.json({ message: "User deleted successfully." });
+    });
+});
 
     
 
